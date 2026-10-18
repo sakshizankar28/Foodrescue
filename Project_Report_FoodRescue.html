@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodRescue - Academic Project Report</title>
+  <style>
+    /* ── Print & Page Setup ── */
+    @page {
+      size: A4 portrait;
+      margin: 15mm 15mm 15mm 15mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Times New Roman", Times, serif;
+      color: #111;
+      line-height: 1.5;
+      background-color: #f3f4f6;
+      font-size: 14pt;
+    }
+
+    /* Print action bar */
+    .no-print-bar {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: #1e5035;
+      color: #fff;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .no-print-bar button {
+      background: #40916c;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .no-print-bar button:hover {
+      background: #52b788;
+    }
+
+    /* ── Single A4 Page Sheet ── */
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 20px auto;
+      background: white;
+      position: relative;
+      padding: 18mm 18mm;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Double border matching the sample report */
+    .page-border {
+      position: absolute;
+      top: 10mm;
+      left: 10mm;
+      right: 10mm;
+      bottom: 10mm;
+      border: 1.5px solid #222;
+      outline: 3px double #222;
+      outline-offset: 2.5px;
+      pointer-events: none;
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media print {
+      body {
+        background: white;
+        font-size: 13.5pt;
+      }
+      .no-print-bar {
+        display: none !important;
+      }
+      .sheet {
+        margin: 0;
+        box-shadow: none;
+        width: 100%;
+        min-height: 100vh;
+        page-break-after: always;
+      }
+    }
+
+    /* Typography & Alignments */
+    .text-center { text-align: center; }
+    .text-justify { text-align: justify; }
+    .text-right { text-align: right; }
+    .bold { font-weight: bold; }
+    .uppercase { text-transform: uppercase; }
+
+    h1, h2, h3, h4 {
+      font-family: "Times New Roman", Times, serif;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .section-title {
+      font-size: 17pt;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .sub-section-title {
+      font-size: 15pt;
+      margin-top: 14px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin-bottom: 12px;
+      text-align: justify;
+      line-height: 1.55;
+    }
+
+    ul, ol {
+      margin-left: 26px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      margin-bottom: 6px;
+      text-align: justify;
+      line-height: 1.45;
+    }
+
+    /* Index Table */
+    .index-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 13pt;
+    }
+
+    .index-table th, .index-table td {
+      border: 1.2px solid #222;
+      padding: 7px 12px;
+    }
+
+    .index-table th {
+      background-color: #f7f7f7;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .index-table td:first-child {
+      text-align: center;
+      width: 12%;
+    }
+
+    .index-table td:last-child {
+      text-align: center;
+      width: 16%;
+    }
+
+    /* College Logo & Emblems */
+    .college-logo-container {
+      margin: 18px 0;
+      text-align: center;
+    }
+
+    .college-seal {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 2px solid #6b1f24;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, #fffdf8, #f5ebd5);
+      box-shadow: 0 0 0 3px #fff, 0 0 0 5px #6b1f24;
+    }
+
+    .college-title-kbtcoe {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 26pt;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #1a1a1a;
+      margin-top: 8px;
+    }
+
+    .certificate-heading {
+      font-family: 'Brush Script MT', cursive, serif;
+      font-size: 40pt;
+      color: #b73229;
+      text-shadow: 1px 1px 2px #d28c86;
+      margin: 18px 0 10px 0;
+      letter-spacing: 3px;
+    }
+
+    .ribbon-line {
+      width: 280px;
+      height: 5px;
+      background: linear-gradient(90deg, transparent, #b73229, transparent);
+      margin: 0 auto 24px auto;
+    }
+
+    /* UI Mockup / Snapshot Frames */
+    .snapshot-frame {
+      border: 1.2px solid #444;
+      border-radius: 6px;
+      background: #fafafa;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      overflow: hidden;
+      margin: 12px 0 6px 0;
+    }
+
+    .snapshot-header {
+      background: #e5e7eb;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid #d1d5db;
+    }
+
+    .snapshot-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .snapshot-caption {
+      font-size: 11pt;
+      font-style: italic;
+      text-align: center;
+      margin-top: 5px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar for user convenience -->
+  <div class="no-print-bar">
+    <div><strong>FoodRescue Academic Project Report</strong> · Formatted for KBTCOE Nashik (A4 Print-Ready)</div>
+    <div>
+      <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- PAGE 1: TITLE / COVER PAGE -->
+  <!-- ================================================================= -->
+  <div class="sheet">
+    <div class="page-border"></div>
+    <div class="page-content" style="justify-content: space-between; text-align: center; padding: 25px 20px;">
+      
+      <div>
+        <p style="font-size: 18pt; margin-bottom: 10px; font-weight: normal;">A Project Report</p>
+        <p style="font-size: 16pt; margin-bottom: 10px; font-weight: normal;">On</p>
+        <h1 style="font-size: 21pt; font-weight: bold; line-height: 1.35; margin: 15px 0; letter-spacing: 0.5px;">
+          “FOODRESCUE – SURPLUS FOOD<br>REDISTRIBUTION PLATFORM”
+        </h1>
+      </div>
+
+      <div style="margin: 20px 0;">
+        <p style="font-size: 14pt; margin-bottom: 4px;">Submitted by</p>
+        <p style="font-size: 16pt; font-weight: bold; margin-bottom: 25px;">
+          Sakshi [Surname] : [Roll No]
+        </p>
+
+        <p style="font-size: 14pt; margin-bottom: 4px;">Under the Subject</p>
+        <p style="font-size: 16pt; font-weight: bold; margin-bottom: 4px;">Web Technologies:</p>
+        <p style="font-size: 15pt; font-weight: bold;">102506</p>
+      </div>
+
+      <div class="college-logo-container">
+        <!-- SVG College Emblem -->
+        <svg width="115" height="115" viewBox="0 0 120 120" style="margin: 0 auto; display: block;">
+          <circle cx="60" cy="60" r="56" fill="#fffdf6" stroke="#7a1c22" stroke-width="4"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#7a1c22" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <path d="M 60 12 A 48 48 0 0 1 108 60 A 48 48 0 0 1 60 108 A 48 48 0 0 1 12 60 A 48 48 0 0 1 60 12" fill="none" stroke="#7a1c22" stroke-width="1"/>
+          <!-- Sun rays / lamp emblem -->
+          <circle cx="60" cy="60" r="26" fill="#ffefcc" stroke="#d97706" stroke-width="1.5"/>
+          <path d="M60 38 L60 82 M38 60 L82 60 M44 44 L76 76 M76 44 L44 76" stroke="#b45309" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="60" cy="60" r="14" fill="#7a1c22"/>
+          <!-- Torch / Flame -->
+          <path d="M60 48 Q64 54 60 58 Q56 54 60 48 Z" fill="#f59e0b"/>
+          <!-- Motto Banner in Devanagari -->
+          <rect x="22" y="93" width="76" height="15" rx="3" fill="#7a1c22"/>
+          <text x="60" y="104" font-family="'Arial Unicode MS', sans-serif" font-size="8.5" fill="#ffffff" font-weight="bold" text-anchor="middle">बहुजन हिताय बहुजन सुखाय</text>
+        </svg>
+        <div class="college-title-kbtcoe">KBTCOE</div>
+      </div>
+
+      <div>
+        <p style="font-size: 15pt; font-weight: bold; margin-bottom: 4px;">Department of Computer Engineering</p>
+        <p style="font-size: 13pt; margin-bottom: 4px;">Maratha Vidya Prasarak Samaj’s</p>
+        <p style="font-size: 13.5pt; font-weight: bold; margin-bottom: 4px;">Karmaveer Adv. Baburao Ganpatrao Thakare College of Engineering,</p>
+        <p style="font-size: 13pt; margin-bottom: 18px;">Nashik-13</p>
+        <p style="font-size: 14pt; font-weight: bold;">Academic Year: 2026-2027</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- PAGE 2: CERTIFICATE -->
+  <!-- ================================================================= -->
+  <div class="sheet">
+    <div class="page-border"></div>
+    <div class="page-content" style="justify-content: space-between; text-align: center; padding: 25px 20px;">
+      
+      <div>
+        <!-- College Seal Header -->
+        <div class="college-logo-container" style="margin-top: 10px;">
+          <svg width="90" height="90" viewBox="0 0 120 120" style="margin: 0 auto; display: block;">
+            <circle cx="60" cy="60" r="56" fill="#fffdf6" stroke="#7a1c22" stroke-width="3.5"/>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="#7a1c22" stroke-width="1.2" stroke-dasharray="3,2"/>
+            <circle cx="60" cy="60" r="24" fill="#ffefcc" stroke="#d97706" stroke-width="1.2"/>
+            <circle cx="60" cy="60" r="12" fill="#7a1c22"/>
+            <rect x="24" y="93" width="72" height="14" rx="2" fill="#7a1c22"/>
+            <text x="60" y="103" font-family="'Arial Unicode MS', sans-serif" font-size="8" fill="#ffffff" font-weight="bold" text-anchor="middle">बहुजन हिताय बहुजन सुखाय</text>
+          </svg>
+          <div style="font-family: Arial, sans-serif; font-size: 20pt; font-weight: 900; letter-spacing: 2px; color: #1a1a1a; margin-top: 5px;">
+            KBTCOE
+          </div>
+        </div>
+
+        <p style="font-size: 15pt; font-weight: bold; margin-bottom: 2px;">Department of Computer Engineering</p>
+        <p style="font-size: 13pt; font-weight: bold; margin-bottom: 4px;">(Accredited by NBA)</p>
+        <p style="font-size: 13pt; margin-bottom: 2px;">Maratha Vidya Prasarak Samaj’s Karmaveer Adv. Baburao Ganpatrao</p>
+        <p style="font-size: 13pt; margin-bottom: 12px;">Thakare College of Engineering, Nashik-13</p>
+
+        <!-- Calligraphy Certificate Header -->
+        <div class="certificate-heading">Certificate</div>
+        <div class="ribbon-line"></div>
+      </div>
+
+      <div style="padding: 10px 15px; line-height: 1.8;">
+        <p style="font-size: 14pt; text-align: center; margin-bottom: 18px;">
+          This is to certify that the Mini-project Report entitled
+        </p>
+        <p style="font-size: 16pt; font-weight: bold; text-align: center; margin-bottom: 18px; line-height: 1.4;">
+          “FOODRESCUE – SURPLUS FOOD REDISTRIBUTION PLATFORM”
+        </p>
+        <p style="font-size: 15pt; font-weight: bold; text-align: center; margin-bottom: 24px;">
+          Sakshi [Surname] &nbsp;&nbsp;|&nbsp;&nbsp; Roll No: [Roll No]
+        </p>
+        <p style="font-size: 13.5pt; text-align: justify; text-indent: 30px; line-height: 1.7;">
+          The project work carried out by them is submitted in partial fulfillment of the requirements of the Web Technologies (T.Y. B.Tech) Project during the academic year 2026–2027.
+        </p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; padding: 20px 30px 10px 30px; font-size: 13pt;">
+        <div style="text-align: left; line-height: 1.6;">
+          <p style="margin-bottom: 4px;"><strong>Date:</strong> 18/10/2026</p>
+          <p style="margin-bottom: 0;"><strong>Place:</strong> Nashik</p>
+        </div>
+        <div style="text-align: center; line-height: 1.6;">
+          <div style="width: 180px; border-bottom: 1px dotted #333; margin-bottom: 6px;"></div>
+          <p style="font-weight: bold; margin-bottom: 0;">Course Teacher</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- PAGE 3: INDEX -->
+  <!-- ================================================================= -->
+  <div class="sheet">
+    <div class="page-border"></div>
+    <div class="page-content" style="padding: 25px 20px;">
+      
+      <h2 style="font-size: 22pt; text-align: center; margin: 15px 0 25px 0; letter-spacing: 2px;">INDEX</h2>
+
+      <table class="index-table">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Contents</th>
+            <th>Page</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td class="bold">Introduction of the Project</td>
+            <td>No. 1</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="bold">Literature Survey</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td class="bold">Design of the Project</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>3.1</td>
+            <td>System Design</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>3.2</td>
+            <td>Block Diagram</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>3.3</td>
+            <td>Working of the Project</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td class="bold">Snapshots of the Project</td>
+            <td>6</td>
+          </tr>
+          <tr>
+            <td>4.1</td>
+            <td>Home Page</td>
+            <td>6</td>
+          </tr>
+          <tr>
+            <td>4.2</td>
+            <td>Food Listings and Food Details</td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td>4.3</td>
+            <td>Donor Dashboard and Food Upload</td>
+            <td>8</td>
+          </tr>
+          <tr>
+            <td>4.4</td>
+            <td>NGO Dashboard and Request Management</td>
+            <td>9</td>
+          </tr>
+          <tr>
+            <td>4.5</td>
+            <td>User Login and Role-Based Registration</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td class="bold">Resources Conclusion</td>
+            <td>11</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td class="bold">References</td>
+            <td>12</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- PAGE 4: 1. INTRODUCTION OF THE PROJECT -->
+  <!-- ================================================================= -->
+  <div class="sheet">
+    <div class="page-border"></div>
+    <div class="page-content" style="padding: 25px 20px;">
+      
+      <div class="section-title">1. INTRODUCTION OF THE PROJECT</div>
+
+      <p>
+        <strong>FoodRescue</strong> is a full-stack web-based platform designed to bridge the gap between commercial surplus food generators—such as college mess facilities, institutional canteens, banquet halls, restaurants, and caterers—and verified Non-Governmental Organizations (NGOs) and community shelters feeding people in need.
+      </p>
+
+      <p>
+        Every day, enormous volumes of wholesome, freshly prepared food are discarded simply because of unpredictable footfall, planned banquet buffers, or administrative surplus. Simultaneously, nearby orphanages, shelter homes, and daily-wage colonies face chronic nutritional deficits. The primary bottleneck is the lack of a real-time, transparent communication channel that can coordinate pickup logistics before food reaches its consumption threshold.
+      </p>
+
+      <p>
+        FoodRescue resolves this issue by providing a centralized, role-based platform. Donors can instantly log surplus food listings specifying preparation time, storage instructions (e.g., insulated hot containers, refrigeration), available portions, and mandatory pickup expiry windows. Verified NGOs can search by locality, filter by dietary requirements (Vegetarian vs. Non-Vegetarian), claim needed quantities, and track approval and pickup logistics in real-time.
+      </p>
+
+      <p>
+        The application is engineered using a robust, decoupled three-tier architecture featuring a React 19 single-page application frontend, an asynchronous Node.js and Express.js REST API backend, and an ACID-compliant MySQL 8 relational database management system.
+      </p>
+
+      <div class="sub-section-title">Technologies Used:</div>
+
+      <ol>
+        <li><strong>HTML5:</strong> Provides the semantic foundation and accessible structure for all web pages and components.</li>
+        <li><strong>CSS3:</strong> Manages layout, responsive grids, custom green-and-cream design tokens, status badge indicators, and smooth UI micro-animations.</li>
+        <li><strong>JavaScript (ES6+):</strong> Handles client-side application logic, asynchronous promises, local storage sessions, and dynamic event handling.</li>
+        <li><strong>React.js:</strong> Facilitates component-driven declarative UI rendering, custom hooks, and dynamic view synchronization.</li>
+        <li><strong>React Router DOM:</strong> Enables seamless client-side single-page routing and role-based route protection without full-page browser reloads.</li>
+        <li><strong>Node.js:</strong> Serves as the high-throughput, non-blocking asynchronous JavaScript execution environment on the server.</li>
+        <li><strong>Express.js:</strong> Powers the backend REST API endpoints, routing structure, and request/response middleware pipeline.</li>
+        <li><strong>MySQL 8.0 &amp; mysql2/promise:</strong> Provides transactional relational database storage with foreign key constraints, cascading updates, and concurrency management.</li>
+        <li><strong>Fetch API &amp; Axios:</strong> Handles asynchronous HTTP networking between client components and backend endpoints.</li>
+        <li><strong>Multer:</strong> Manages secure multipart form-data image uploads for food verification photos.</li>
+      </ol>
+
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- PAGE 5: OBJECTIVES, LITERATURE SURVEY, SYSTEM DESIGN -->
+  <!-- ================================================================= -->
+  <div class="sheet">
+    <div class="page-border"></div>
+    <div class="page-content" style="padding: 25px 20px;">
+      
+      <div class="sub-section-title" style="margin-top: 0;">Objectives:</div>
+      <ul>
+        <li>To develop a responsive, user-friendly platform for real-time surplus food redistribution.</li>
+        <li>To prevent edible food from ending up in municipal landfills by connecting donors with local charities.</li>
+        <li>To provide role-based authentication and specialized dashboards for Donors and NGOs.</li>
+        <li>To enforce food safety and hygiene protocols by recording storage details and strict expiry times.</li>
+        <li>To implement transactional reservation logic ensuring quantities cannot be over-claimed.</li>
+        <li>To eliminate operational intermediaries through direct phone and pickup coordination.</li>
+      </ul>
+
+      <div class="section-title" style="margin-top: 18px;">2. LITERATURE SURVEY:</div>
+
+      <p>
+        Conventional food donation methods in institutional setups predominantly rely on informal WhatsApp groups, occasional telephone directories, or irregular volunteer drives. While well-intentioned, these manual channels suffer from severe latency: by the time an NGO learns about surplus food, the safe consumption window has often elapsed. Furthermore, there is no verification of storage conditions, leading to potential food safety hazards, nor any mechanism to prevent multiple organizations from arriving for the same limited batch.
+      </p>
+
+      <p>
+        Commercial food-tech apps (such as food delivery services) prioritize monetized transactions and express packaging, offering no workflow for non-profit surplus redistribution. Specialized charity initiatives exist in select metropolitan cities, but often mandate complex corporate contracts or centralized warehouse logistics, rendering them inaccessible to everyday college hostels and local canteens.
+      </p>
+
+      <p>
+        FoodRescue addresses these shortcomings by deploying a lightweight, hyper-local web architecture. By combining instant listing creation, strict expiry timestamps, transparent portion counts, and direct contact numbers, the platform delivers zero-cost food recovery that can be operated seamlessly by mess staff and local shelter coordinators alike.
+      </p>
+
+      <div class="section-title" style="margin-top: 18px;">3. DESIGN OF THE PROJECT</div>
+
+      <div class="sub-section-title">3.1 System Design:</div>
+
+      <p>
+        FoodRescue follows an industry-standard <strong>Three-Tier Decoupled Architecture</strong>:
+      </p>
+      <ul>
+        <li><strong>Presentation Tier (Frontend):</strong> Built with React 19 and Vite. Renders interactive components including live food listing cards, search bars, role-based dashboards, and modal dialogs. Client state and authentication tokens are managed securely in browser memory and local storage.</li>
+        <li><strong>Application Tier (Backend API):</strong> Built on Node.js and Express.js. Handles business logic, role-guard middleware, password hashing using bcrypt, image upload filtering via Multer, and RESTful routing.</li>
+        <li><strong>Data Tier (Database):</strong> Powered by MySQL 8.0. Stores structured relational tables (<code>users</code>, <code>food_listings</code>, and <code>food_requests</code>) linked via enforced foreign keys with automatic cascade integrity.</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- PAGE 6: 3.2 BLOCK DIAGRAM -->
+  <!-- ================================================================= -->
+  <div class="sheet">
+    <div class="page-border"></div>
+    <div class="page-content" style="padding: 25px 20px;">
+      
+      <p style="margin-bottom: 8px;">
+        React components structure the platform into reusable, modular elements. React Router DOM manages navigation across public views (Home, About, Contact), authentication gateways, and role-protected dashboards.
+      </p>
+
+      <p style="margin-bottom: 12px;">
+        The Node.js and Express backend exposes secure REST endpoints (<code>/api/auth</code>, <code>/api/food</code>, <code>/api/requests</code>). When an NGO initiates a claim, the server executes transactional verification to decrement available quantities in MySQL, guaranteeing that simultaneous requests do not cause race conditions or over-commitment.
+      </p>
+
+      <div class="sub-section-title" style="margin-top: 5px;">3.2 Block Diagram:</div>
+
+      <!-- Clean SVG Architecture Block Diagram -->
+      <div style="text-align: center; margin: 15px 0;">
+        <svg width="100%" height="480" viewBox="0 0 680 480" style="margin: 0 auto; display: block; font-family: Arial, sans-serif;">
+          <!-- Outer border -->
+          <rect x="10" y="10" width="660" height="460" rx="8" fill="#fdfbf7" stroke="#cbd5e1" stroke-width="1.5"/>
+
+          <!-- Title Banner -->
+          <rect x="180" y="20" width="320" height="34" rx="6" fill="#1e5035"/>
+          <text x="340" y="42" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">Block Diagram of FoodRescue Platform</text>
+
+          <!-- 1. Users Layer -->
+          <g transform="translate(40, 75)">
+            <rect x="0" y="0" width="600" height="50" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+            <text x="300" y="22" fill="#0369a1" font-size="13" font-weight="bold" text-anchor="middle">User Roles</text>
+            <text x="300" y="40" fill="#0f172a" font-size="11" text-anchor="middle">Food Donor (Canteen/Hostel/Caterer) &nbsp;•&nbsp; Recipient NGO &nbsp;•&nbsp; Public Visitor</text>
+          </g>
+
+          <!-- Arrow 1 -->
+          <path d="M340 125 L340 148" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- 2. Browser & Client Layer -->
+          <g transform="translate(40, 150)">
+            <rect x="0" y="0" width="600" height="70" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+            <text x="300" y="22" fill="#15803d" font-size="13" font-weight="bold" text-anchor="middle">Client Tier: React 19 Single Page Application</text>
+            <rect x="20" y="34" width="160" height="26" rx="4" fill="#ffffff" stroke="#86efac"/>
+            <text x="100" y="51" fill="#166534" font-size="11" text-anchor="middle">React Components &amp; UI</text>
+            
+            <rect x="220" y="34" width="160" height="26" rx="4" fill="#ffffff" stroke="#86efac"/>
+            <text x="300" y="51" fill="#166534" font-size="11" text-anchor="middle">React Router DOM</text>
+            
+            <rect x="420" y="34" width="160" height="26" rx="4" fill="#ffffff" stroke="#86efac"/>
+            <text x="500" y="51" fill="#166534" font-size="11" text-anchor="middle">Fetch API Client</text>
+          </g>
+
+          <!-- Arrow 2 -->
+          <path d="M340 220 L340 243" stroke="#475569" stroke-width="2"/>
+
+          <!-- 3. Server Layer -->
+          <g transform="translate(40, 245)">
+            <rect x="0" y="0" width="600" height="85" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+            <text x="300" y="22" fill="#b45309" font-size="13" font-weight="bold" text-anchor="middle">Application Tier: Node.js &amp; Express REST Server</text>
+            
+            <rect x="15" y="34" width="130" height="38" rx="4" fill="#ffffff" stroke="#fcd34d"/>
+            <text x="80" y="50" fill="#92400e" font-size="11" font-weight="bold" text-anchor="middle">Auth Middleware</text>
+            <text x="80" y="64" fill="#78350f" font-size="9" text-anchor="middle">JWT &amp; bcrypt</text>
+
+            <rect x="160" y="34" width="130" height="38" rx="4" fill="#ffffff" stroke="#fcd34d"/>
+            <text x="225" y="50" fill="#92400e" font-size="11" font-weight="bold" text-anchor="middle">Food Controller</text>
+            <text x="225" y="64" fill="#78350f" font-size="9" text-anchor="middle">CRUD &amp; Multer</text>
+
+            <rect x="305" y="34" width="130" height="38" rx="4" fill="#ffffff" stroke="#fcd34d"/>
+            <text x="370" y="50" fill="#92400e" font-size="11" font-weight="bold" text-anchor="middle">Request Controller</text>
+            <text x="370" y="64" fill="#78350f" font-size="9" text-anchor="middle">Claims &amp; Allocation</text>
+
+            <rect x="450" y="34" width="135" height="38" rx="4" fill="#ffffff" stroke="#fcd34d"/>
+            <text x="517" y="50" fill="#92400e" font-size="11" font-weight="bold" text-anchor="middle">Uploads Directory</text>
+            <text x="517" y="64" fill="#78350f" font-size="9" text-anchor="middle">Static Photo Assets</text>
+          </g>
+
+          <!-- Arrow 3 -->
+          <path d="M340 330 L340 353" stroke="#475569" stroke-width="2"/>
+
+          <!-- 4. Database Layer -->
+          <g transform="translate(40, 355)">
+            <rect x="0" y="0" width="600" height="85" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+            <text x="300" y="22" fill="#6d28d9" font-size="13" font-weight="bold" text-anchor="middle">Data Tier: MySQL 8.0 Relational Database (foodrescue_db)</text>
+            
+            <rect x="30" y="34" width="160" height="38" rx="4" fill="#ffffff" stroke="#c4b5fd"/>
+            <text x="110" y="50" fill="#5b21b6" font-size="11" font-weight="bold" text-anchor="middle">users Table</text>
+            <text x="110" y="64" fill="#4c1d95" font-size="9" text-anchor="middle">Donors, NGOs, Hashes</text>
+
+            <rect x="220" y="34" width="160" height="38" rx="4" fill="#ffffff" stroke="#c4b5fd"/>
+            <text x="300" y="50" fill="#5b21b6" font-size="11" font-weight="bold" text-anchor="middle">food_listings Table</text>
+            <text x="300" y="64" fill="#4c1d95" font-size="9" text-anchor="middle">Portions, Expiry, Storage</text>
+
+            <rect x="410" y="34" width="160" height="38" rx="4" fill="#ffffff" stroke="#c4b5fd"/>
+            <text x="490" y="50" fill="#5b21b6" font-size="11" font-weight="bold" text-anchor="middle">food_requests Table</text>
+            <text x="490" y="64" fill="#4c1d95" font-size="9" text-anchor="middle">Claims, Quantities, Status</text>
+          </g>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- PAGE 7: 3.3 WORKING OF THE PROJECT & 4. SNAPSHOTS -->
+  <!-- ================================================================= -->
+  <div class="sheet">
+    <div class="page-border"></div>
+    <div class="page-content" style="padding: 25px 20px;">
+      
+      <div class="sub-section-title" style="margin-top: 0;">3.3 Working of the Project:</div>
+
+      <ul>
+        <li><strong>Step 1 (Authentication):</strong> Users register as either a Food Donor (Hostel/Canteen/Caterer) or a verified NGO. The system securely hashes passwords via bcrypt and returns a signed JWT.</li>
+        <li><strong>Step 2 (Surplus Listing):</strong> The donor navigates to <em>Add Food</em>, fills out the food title, food category (Veg/Non-Veg), portion count, prepared timestamp, storage guidelines (e.g., heated/refrigerated), safe consumption window, and uploads a verification photograph.</li>
+        <li><strong>Step 3 (Real-Time Availability):</strong> The listing is stored in MySQL and immediately published on the public landing page and the protected NGO Dashboard with an active <code>available</code> badge.</li>
+        <li><strong>Step 4 (NGO Discovery &amp; Claim):</strong> NGO representatives search listings by location and dietary tags. Clicking <em>Request Food</em> opens a modal specifying required servings and transport message.</li>
+        <li><strong>Step 5 (Approval &amp; Pickup Coordination):</strong> The donor reviews the incoming claim on their dashboard and marks it as <em>Accepted</em>. Direct phone communication coordinates driver dispatch. Once collected, the status transitions to <em>Claimed/Completed</em>.</li>
+      </ul>
+
+      <div class="section-title" style="margin-top: 20px;">4. SNAPSHOTS OF THE PROJECT</div>
+
+      <div class="sub-section-title">4.1 Home Page:</div>
+
+      <!-- High-Fidelity Mockup of FoodRescue Home Page -->
+      <div class="snapshot-frame">
+        <div class="snapshot-header">
+          <span class="snapshot-dot dot-red"></span>
+          <span class="snapshot-dot dot-yellow"></span>
+          <span class="snapshot-dot dot-green"></span>
+          <span style="font-family: Arial; font-size: 10px; color: #64748b; margin-left: 10px;">http://localhost:5173/</span>
+        </div>
+        <div style="background: #fdf8f1; padding: 14px 18px; font-family: 'Poppins', sans-serif;">
+          <!-- Navbar Mock -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px;">
+            <div style="font-weight: 800; font-size: 15px; color: #1e5035; display: flex; align-items: center; gap: 5px;">
+              <span>🌱 FoodRescue</span>
+            </div>
+            <div style="display: flex; gap: 14px; font-size: 11px; color: #374151; font-weight: 500;">
+              <span>Home</span>
+              <span>About</span>
+              <span>Find Food</span>
+              <span>Contact</span>
+              <span style="background: #1e5035; color: white; padding: 3px 10px; border-radius: 4px;">Sign In</span>
+            </div>
+          </div>
+          <!-- Hero Section Mock -->
+          <div style="display: flex; gap: 15px; margin-top: 12px; align-items: center;">
+            <div style="flex: 1.2;">
+              <span style="background: #d8f3dc; color: #1e5035; padding: 2px 8px; border-radius: 12px; font-size: 9px; font-weight: bold;">SURPLUS FOOD REDISTRIBUTION</span>
+              <h3 style="font-size: 16px; color: #0f2d1a; margin: 6px 0; font-family: 'Poppins', sans-serif;">Bridging Surplus Kitchens with Communities in Need</h3>
+              <p style="font-size: 10px; color: #4b5563; line-height: 1.4; margin-bottom: 8px;">Connecting hostels, canteens, and caterers directly with verified NGOs to feed thousands daily.</p>
+              <div style="display: flex; gap: 8px;">
+                <span style="background: #e05a1a; color: white; padding: 4px 12px; font-size: 10px; font-weight: bold; border-radius: 4px;">Donate Food</span>
+                <span style="background: #e5e7eb; color: #1f2937; padding: 4px 12px; font-size: 10px; font-weight: bold; border-radius: 4px;">Browse Listings</span>
+              </div>
+            </div>
+            <div style="flex: 0.8; background: #e2e8f0; border-radius: 6px; height: 95px; display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 11px; border: 1px dashed #cbd5e1;">
+              [Hero Visual: Safe Community Meal Service]
+            </div>
+          </div>
+          <!-- Metrics Strip -->
+          <div style="display: flex; justify-content: space-around; background: #ffffff; border-radius: 6px; padding: 8px 10px; margin-top: 10px; border: 1px solid #f0e6d6;">
+            <div style="text-align: center;"><div style="font-size: 13px; font-weight: 800; color: #1e5035;">5,000+</div><div style="font-size: 9px; color: #6b7280;">Meals Saved</div></div>
+            <div style="text-align: center;"><div style="font-size: 13px; font-weight: 800; color: #1e5035;">45+</div><div style="font-size: 9px; color: #6b7280;">Hostel Canteens</div></div>
+            <div style="text-align: center;"><div style="font-size: 13px; font-weight: 800; color: #1e5035;">30+</div><div style="font-size: 9px; color: #6b7280;">Partner NGOs</div></div>
+            <div style="text-align: center;"><div style="font-size: 13px; font-weight: 800; color: #e05a1a;">0 ₹</div><div style="font-size: 9px; color: #6b7280;">Cost to Shelters</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="snapshot-caption">Figure 1: Home Page of FoodRescue Platform</div>
+
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- PAGE 8: 4.2 & 4.3 SNAPSHOTS (FOOD LISTINGS & DASHBOARDS) -->
+  <!-- ================================================================= -->
+  <div class="sheet">
+    <div class="page-border"></div>
+    <div class="page-content" style="padding: 25px 20px;">
+      
+      <div class="sub-section-title" style="margin-top: 0;">4.2 Food Listings and Food Details:</div>
+
+      <div class="snapshot-frame">
+        <div class="snapshot-header">
+          <span class="snapshot-dot dot-red"></span>
+          <span class="snapshot-dot dot-yellow"></span>
+          <span class="snapshot-dot dot-green"></span>
+          <span style="font-family: Arial; font-size: 10px; color: #64748b; margin-left: 10px;">http://localhost:5173/ngo-dashboard</span>
+        </div>
+        <div style="background: #fdfbf7; padding: 12px; font-family: Arial, sans-serif;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <!-- Food Card 1 -->
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="background: #dcfce7; color: #15803d; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px;">VEG</span>
+                <span style="background: #bbf7d0; color: #14532d; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px;">AVAILABLE</span>
+              </div>
+              <h4 style="font-size: 12px; margin: 6px 0 2px 0; color: #0f172a;">Dal Rice &amp; Mixed Vegetable Curry</h4>
+              <p style="font-size: 9px; color: #64748b; margin-bottom: 4px;">Freshly packed in clean steel containers.</p>
+              <div style="font-size: 9.5px; color: #334155; line-height: 1.3;">
+                <div>📦 <strong>Quantity:</strong> 35 servings</div>
+                <div>📍 <strong>Pickup:</strong> Block B Hostel Mess, Campus Gate 2</div>
+                <div>🕒 <strong>Prepared:</strong> Today 12:00 PM (Safe for 8 hours)</div>
+              </div>
+              <button style="width: 100%; margin-top: 6px; background: #2d6a4f; color: white; border: none; padding: 4px; border-radius: 3px; font-size: 10px; font-weight: bold;">Request Food</button>
+            </div>
+            <!-- Food Card 2 -->
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="background: #fee2e2; color: #b91c1c; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px;">NON-VEG</span>
+                <span style="background: #bbf7d0; color: #14532d; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px;">AVAILABLE</span>
+              </div>
+              <h4 style="font-size: 12px; margin: 6px 0 2px 0; color: #0f172a;">Hyderabadi Chicken Biryani</h4>
+              <p style="font-size: 9px; color: #64748b; margin-bottom: 4px;">Surplus banquet batch with salan &amp; raita.</p>
+              <div style="font-size: 9.5px; color: #334155; line-height: 1.3;">
+                <div>📦 <strong>Quantity:</strong> 50 servings</div>
+                <div>📍 <strong>Pickup:</strong> Grand Palace Caterers, City Center</div>
+                <div>🕒 <strong>Prepared:</strong> 1:00 PM (Insulated Hot Boxes)</div>
+              </div>
+              <button style="width: 100%; margin-top: 6px; background: #2d6a4f; color: white; border: none; padding: 4px; border-radius: 3px; font-size: 10px; font-weight: bold;">Request Food</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="snapshot-caption">Figure 2: NGO Food Discovery with Portion &amp; Storage Details</div>
+
+      <div class="sub-section-title" style="margin-top: 14px;">4.3 Donor Dashboard and Food Upload:</div>
+
+      <div class="snapshot-frame">
+        <div class="snapshot-header">
+          <span class="snapshot-dot dot-red"></span>
+          <span class="snapshot-dot dot-yellow"></span>
+          <span class="snapshot-dot dot-green"></span>
+          <span style="font-family: Arial; font-size: 10px; color: #64748b; margin-left: 10px;">http://localhost:5173/donor-dashboard</span>
+        </div>
+        <div style="background: #ffffff; padding: 12px; font-family: Arial, sans-serif;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+            <div style="font-size: 12px; font-weight: bold; color: #0f2d1a;">Donor Portal: BITS Hostel Mess</div>
+            <span style="background: #e05a1a; color: white; font-size: 9px; padding: 3px 8px; border-radius: 4px; font-weight: bold;">+ Post New Surplus Food</span>
+          </div>
+          <!-- Donor Stats -->
+          <div style="display: flex; gap: 8px; margin: 8px 0;">
+            <div style="flex: 1; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 6px; border-radius: 4px; text-align: center;">
+              <div style="font-size: 14px; font-weight: bold; color: #166534;">12</div>
+              <div style="font-size: 8.5px; color: #15803d;">Total Listings</div>
+            </div>
+            <div style="flex: 1; background: #eff6ff; border: 1px solid #bfdbfe; padding: 6px; border-radius: 4px; text-align: center;">
+              <div style="font-size: 14px; font-weight: bold; color: #1e40af;">4</div>
+              <div style="font-size: 8.5px; color: #1d4ed8;">Active Live</div>
+            </div>
+            <div style="flex: 1; background: #fefce8; border: 1px solid #fef08a; padding: 6px; border-radius: 4px; text-align: center;">
+              <div style="font-size: 14px; font-weight: bold; color: #854d0e;">3 Pending</div>
+              <div style="font-size: 8.5px; color: #a16207;">NGO Requests</div>
+            </div>
+            <div style="flex: 1; background: #fdf2f8; border: 1px solid #fbcfe8; padding: 6px; border-radius: 4px; text-align: center;">
+              <div style="font-size: 14px; font-weight: bold; color: #9d174d;">8 Completed</div>
+              <div style="font-size: 8.5px; color: #be185d;">Distributions</div>
+            </div>
+          </div>
+          <!-- Request Approval Row -->
+          <div style="border: 1px solid #e2e8f0; border-radius: 4px; padding: 6px 8px; font-size: 9.5px; display: flex; justify-content: space-between; align-items: center; background: #fafafa;">
+            <div>
+              <strong>Asha Food Care Foundation</strong> requested <em>35 servings of Dal Rice</em>
+              <div style="color: #64748b; font-size: 8.5px;">"Can collect by 6:00 PM via insulated van"</div>
+            </div>
+            <div style="display: flex; gap: 4px;">
+              <button style="background: #16a34a; color: white; border: none; padding: 2px 8px; border-radius: 3px; font-size: 9px;">Accept</button>
+              <button style="background: #dc2626; color: white; border: none; padding: 2px 8px; border-radius: 3px; font-size: 9px;">Reject</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="snapshot-caption">Figure 3: Donor Management Dashboard &amp; Incoming Claim Approvals</div>
+
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- PAGE 9: 5. CONCLUSION & 6. REFERENCES -->
+  <!-- ================================================================= -->
+  <div class="sheet">
+    <div class="page-border"></div>
+    <div class="page-content" style="padding: 25px 20px;">
+      
+      <div class="section-title">5. CONCLUSION</div>
+
+      <p>
+        <strong>FoodRescue</strong> establishes an effective, scalable, and socially transformative solution to the dual crises of institutional food waste and community hunger. By leveraging modern full-stack web technologies, the platform transforms what was previously an uncoordinated, error-prone manual process into an automated, transparent redistribution pipeline.
+      </p>
+
+      <p>
+        The project successfully demonstrates the integration of a React 19 single-page interface with a responsive, modern design system, seamless client-side routing via React Router DOM, and a hardened Express.js REST API backed by an ACID-compliant MySQL relational database. The implementation of role-based dashboards, secure JWT authorization, transaction-safe quantity decrementing, and photo validation safeguards hygiene and logistical accountability at every step.
+      </p>
+
+      <p>
+        In future iterations, the FoodRescue ecosystem can be further augmented with:
+      </p>
+      <ul>
+        <li><strong>Google Maps Platform Integration:</strong> Automated calculation of optimal transit routes, distance radii, and live driver tracking between donor kitchens and NGO shelters.</li>
+        <li><strong>Automated SMS &amp; WhatsApp Notifications:</strong> Real-time messaging alerts powered by Twilio to notify nearby verified NGO volunteers within seconds of a new food posting.</li>
+        <li><strong>IoT Cold-Chain Sensors:</strong> Integration with low-cost Bluetooth/Wi-Fi temperature sensors to monitor food storage safety continuously until delivery.</li>
+        <li><strong>Volunteer Dispatch Network:</strong> Crowdsourced delivery coordination allowing registered student volunteers to handle transport for small-batch donations.</li>
+      </ul>
+
+      <p>
+        Overall, the project provided invaluable practical experience across the entire web application development lifecycle, illustrating how technology can be directly channeled toward humanitarian and environmental sustainability.
+      </p>
+
+      <div class="section-title" style="margin-top: 22px;">6. REFERENCES</div>
+
+      <ul style="font-size: 12.5pt; line-height: 1.6;">
+        <li>MDN Web Docs – HTML, CSS, and JavaScript Standards: <br><span style="font-family: monospace; font-size: 11pt;">https://developer.mozilla.org/</span></li>
+        <li>React Official Documentation &amp; Hooks API: <br><span style="font-family: monospace; font-size: 11pt;">https://react.dev/</span></li>
+        <li>React Router DOM Architecture Guide: <br><span style="font-family: monospace; font-size: 11pt;">https://reactrouter.com/</span></li>
+        <li>Node.js Asynchronous Runtime Documentation: <br><span style="font-family: monospace; font-size: 11pt;">https://nodejs.org/docs/</span></li>
+        <li>Express.js Web Application Framework Documentation: <br><span style="font-family: monospace; font-size: 11pt;">https://expressjs.com/</span></li>
+        <li>MySQL 8.0 Reference Manual (Transaction Isolation &amp; Foreign Keys): <br><span style="font-family: monospace; font-size: 11pt;">https://dev.mysql.com/doc/refman/8.0/en/</span></li>
+        <li>JWT (JSON Web Tokens) Authentication Standard (RFC 7519): <br><span style="font-family: monospace; font-size: 11pt;">https://jwt.io/introduction</span></li>
+        <li>Food and Agriculture Organization (FAO) – Food Loss and Waste Database: <br><span style="font-family: monospace; font-size: 11pt;">https://www.fao.org/food-loss-and-food-waste/</span></li>
+        <li>FSSAI Safe Food Donation Protocols: <br><span style="font-family: monospace; font-size: 11pt;">https://www.fssai.gov.in/</span></li>
+      </ul>
+
+    </div>
+  </div>
+
+</body>
+</html>
