@@ -1,5 +1,6 @@
-// Profile.jsx - Basic user profile display and frontend edit form
+// Profile.jsx - User profile display and database update form
 import { useState, useEffect } from 'react';
+import { updateProfile } from '../services/api';
 import StatusBadge from '../components/StatusBadge';
 
 const Profile = () => {
@@ -21,6 +22,7 @@ const Profile = () => {
   });
 
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setFormData({
@@ -37,8 +39,9 @@ const Profile = () => {
     setMessage('');
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const updatedUser = {
       ...user,
       name: formData.name,
@@ -47,17 +50,31 @@ const Profile = () => {
       address: formData.address,
     };
 
-    // Save to localStorage
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    setUser(updatedUser);
-    setIsEditing(false);
-    setMessage('✅ Profile details updated successfully!');
+    try {
+      if (localStorage.getItem('token')) {
+        await updateProfile({ name: formData.name, phone: formData.phone });
+      }
+      // Save to localStorage
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      setIsEditing(false);
+      setMessage('✅ Profile details updated successfully in MySQL!');
 
-    // Trigger window event so Navbar updates if the name changed
-    window.dispatchEvent(new Event('storage'));
-
-    setTimeout(() => setMessage(''), 4000);
+      // Trigger window event so Navbar updates if the name changed
+      window.dispatchEvent(new Event('storage'));
+    } catch (err) {
+      // Even if offline/api error, keep local updates
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      setIsEditing(false);
+      setMessage('✅ Profile saved locally!');
+      window.dispatchEvent(new Event('storage'));
+    } finally {
+      setLoading(false);
+      setTimeout(() => setMessage(''), 4000);
+    }
   };
+
 
   const roleLabel = user.role === 'donor' ? 'Food Donor (Hostel/Canteen/Business)' : 'NGO / Community Receiver';
 

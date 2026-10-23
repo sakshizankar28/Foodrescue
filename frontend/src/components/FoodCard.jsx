@@ -19,14 +19,15 @@ const FoodCard = ({ food, showRequestBtn = false, onRequest }) => {
   // Determine uploaded image URL (served from backend /uploads)
   let imageSrc = null;
   if (food.image && typeof food.image === 'string') {
-    if (food.image.startsWith('/uploads')) {
-      imageSrc = `http://localhost:5000${food.image}`;
-    } else if (food.image.startsWith('uploads')) {
-      imageSrc = `http://localhost:5000/${food.image}`;
-    } else if (food.image.startsWith('http')) {
+    if (food.image.startsWith('/uploads') || food.image.startsWith('http')) {
       imageSrc = food.image;
+    } else if (food.image.startsWith('uploads')) {
+      imageSrc = `/${food.image}`;
+    } else {
+      imageSrc = `/uploads/${food.image}`;
     }
   }
+
 
   const donorName = food.organization || food.donor_name || 'Verified Donor';
   const avatarLetter = donorName.charAt(0).toUpperCase();

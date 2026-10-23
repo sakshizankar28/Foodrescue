@@ -1,8 +1,8 @@
 // frontend/src/services/api.js
-// Purpose: Centralized API client using the standard Fetch API.
+// Purpose: Centralized API client using relative URL (/api) for unified single-origin hosting.
 // Handles baseURL, JWT token headers, JSON and FormData requests, and HTTP errors.
 
-const BASE_URL = 'http://localhost:5000/api';
+const BASE_URL = '/api';
 
 /**
  * Core helper that wraps the browser's native Fetch API.
@@ -35,8 +35,9 @@ async function apiRequest(endpoint, options = {}) {
   try {
     response = await fetch(url, config);
   } catch (err) {
-    throw new Error('Cannot connect to backend server. Please make sure the backend is running on port 5000 (run "cd backend" then "node server.js").');
+    throw new Error('Cannot connect to backend server. Please make sure the server is running on http://localhost:3000.');
   }
+
 
   // Parse JSON response (or handle empty response body)
   let data = null;
@@ -90,6 +91,13 @@ export const getMe = () =>
   apiRequest('/auth/me', {
     method: 'GET',
   });
+
+export const updateProfile = (profileData) =>
+  apiRequest('/auth/profile', {
+    method: 'PUT',
+    body: JSON.stringify(profileData),
+  });
+
 
 // ── Food APIs ────────────────────────────────────────────────────────
 export const getAllFood = () =>

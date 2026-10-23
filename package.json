@@ -1,0 +1,21 @@
+{
+  "name": "foodrescue-monorepo",
+  "version": "1.0.0",
+  "description": "FoodRescue - Full-Stack Food Redistribution Platform with One Localhost URL",
+  "scripts": {
+    "build": "npm run build --prefix frontend",
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "dev:watch": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "install:all": "npm install --prefix backend && npm install --prefix frontend"
+  },
+  "keywords": [
+    "foodrescue",
+    "express",
+    "react",
+    "mysql"
+  ],
+  "author": "",
+  "license": "ISC"
+}

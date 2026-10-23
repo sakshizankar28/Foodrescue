@@ -284,11 +284,12 @@ const DonorDashboard = () => {
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                             {food.image && (
                               <img
-                                src={food.image.startsWith('/uploads') ? `http://localhost:5000${food.image}` : food.image}
+                                src={food.image.startsWith('/uploads') || food.image.startsWith('http') ? food.image : `/uploads/${food.image}`}
                                 alt={food.title || food.food_name}
                                 style={{ width: '42px', height: '42px', borderRadius: '6px', objectFit: 'cover', flexShrink: 0 }}
                               />
                             )}
+
                             <div>
                               <strong>{food.title || food.food_name}</strong>
                               {food.description && <div style={{ fontSize: '0.8rem', color: 'var(--n-500)' }}>{food.description}</div>}
